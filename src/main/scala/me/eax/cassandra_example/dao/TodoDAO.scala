@@ -30,9 +30,7 @@ case class TodoDAO(session: Session)(implicit ec: ExecutionContext) {
       QB.insertInto(table)
         .value(id, dto.id)
         .value(description, dto.descr)
-        .getQueryString
     }
-    println(s"DEBUG: query = $query")
     session.executeAsync(query).map(_ => {})
   }
 
@@ -40,7 +38,6 @@ case class TodoDAO(session: Session)(implicit ec: ExecutionContext) {
     val query = {
       QB.select(id, description)
         .from(table)
-        .getQueryString
     }
 
     for {
@@ -58,7 +55,6 @@ case class TodoDAO(session: Session)(implicit ec: ExecutionContext) {
       QB.delete().all()
         .from(table)
         .where(QB.eq(id, idToDelete))
-        .getQueryString
     }
     session.executeAsync(query).map(_ => {})
   }
